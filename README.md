@@ -42,10 +42,10 @@ Running 6 tests, 1000 times each...
 The 100 highest and lowest results will be disregarded.
 
 Results:
-Test Name                          	Time                	+ Interval          	Change
+Test Name                          	    Time                	+ Interval          	Change
 FastRoute - unknown route (1000 routes)	0.0003558156        	+0.0000000000       	baseline
 FastRoute - last route (1000 routes)	0.0004698372        	+0.0001140216       	32% slower
-Pux PHP - last route (1000 routes) 	0.0027003917        	+0.0023445761       	659% slower
+Pux PHP - last route (1000 routes) 	    0.0027003917        	+0.0023445761       	659% slower
 Pux PHP - unknown route (1000 routes)	0.0027126130        	+0.0023567975       	662% slower
 Symfony 2 - unknown route (1000 routes)	0.0051302084        	+0.0047743928       	1342% slower
 Symfony 2 - last route (1000 routes)	0.0052936333        	+0.0049378178       	1388% slower
