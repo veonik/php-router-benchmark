@@ -31,9 +31,9 @@ For Symfony 2 - last route (1000 routes), out of 800 runs, average time was: 0.0
 
 
 Results:
-Test Name                          	Time                	+ Interval          	Change
+Test Name                          	    Time                	+ Interval          	Change
 FastRoute - last route (1000 routes)	0.0003571352        	+0.0000000000       	baseline
-Pux PHP - last route (1000 routes) 	0.0029948521        	+0.0026377168       	739% slower
+Pux PHP - last route (1000 routes) 	    0.0029948521        	+0.0026377168       	739% slower
 Symfony 2 - last route (1000 routes)	0.0080974451        	+0.0077403098       	2167% slower
 ```
 
