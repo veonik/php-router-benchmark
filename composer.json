@@ -1,9 +1,10 @@
 {
-    "require": {
-        "tyler-sommer/nice": "dev-master",
-        "nikic/fast-route": "dev-master",
-        "stack/builder": "dev-master",
-        "stack/run": "dev-master",
-        "corneltek/pux": "dev-master"
-    }
+  "require": {
+    "tyler-sommer/nice": "dev-master",
+    "nikic/fast-route": "dev-master",
+    "stack/builder": "dev-master",
+    "stack/run": "dev-master",
+    "corneltek/pux": "dev-master",
+    "symfony/routing": "dev-master"
+  }
 }
