@@ -1,7 +1,7 @@
-nice benchmark
-==============
+PHP Router Benchmark
+====================
 
-The intent here is to benchmark different routing solutions.
+The intent here is to benchmark different PHP routing solutions.
 
 This is a micro-optimization, done purely out of dumb curiosity.
 
