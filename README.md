@@ -9,7 +9,7 @@ This is a micro-optimization, done purely out of dumb curiosity.
 Installation
 ------------
 
-Clone the repo, run `composer install`, run `php test.php`.
+Clone the repo, run `composer install`, run `php run-tests.php`.
 
 You can install the Pux extension to test that as well. See Pux docs for more info.
 
