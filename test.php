@@ -60,6 +60,12 @@ $benchmark = new TylerSommer\Nice\Benchmark\Benchmark();
 //        }
 //    });
 
+$benchmark->register(sprintf('Symfony 2 - last route (%s routes)', $nRoutes), function() use($nMatches, $sfMatcher, $sfLastStr, $sfArgs) {
+        for ($i = 0; $i < $nMatches; ++$i) {
+            $route = $sfMatcher->match('/' . $sfLastStr . '/' . $sfArgs);
+        }
+    });
+
 $benchmark->register(sprintf('FastRoute - last route (%s routes)', $nRoutes), function() use($nMatches, $router, $frLastStr, $frArgs) {
         for ($i = 0; $i < $nMatches; $i++) {
             $res = $router->dispatch('GET', '/' . $frLastStr . '/' . $frArgs);
@@ -72,9 +78,25 @@ $benchmark->register(sprintf('Pux PHP - last route (%s routes)', $nRoutes), func
         }
     });
 
-$benchmark->register(sprintf('Symfony 2 - last route (%s routes)', $nRoutes), function() use($nMatches, $sfMatcher, $sfLastStr, $sfArgs) {
+$benchmark->register(sprintf('Symfony 2 - unknown route (%s routes)', $nRoutes), function() use($nMatches, $sfMatcher) {
         for ($i = 0; $i < $nMatches; ++$i) {
-            $route = $sfMatcher->match('/' . $sfLastStr . '/' . $sfArgs);
+            try {
+                $route = $sfMatcher->match('/not-even-real');
+            } catch (\Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
+
+            }
+        }
+    });
+
+$benchmark->register(sprintf('FastRoute - unknown route (%s routes)', $nRoutes), function() use($nMatches, $router) {
+        for ($i = 0; $i < $nMatches; $i++) {
+            $res = $router->dispatch('GET', '/not-even-real');
+        }
+    });
+
+$benchmark->register(sprintf('Pux PHP - unknown route (%s routes)', $nRoutes), function() use($nMatches, $mux) {
+        for ($i = 0; $i < $nMatches; ++$i) {
+            $route = $mux->dispatch('/not-even-real');
         }
     });
 
