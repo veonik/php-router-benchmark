@@ -1,5 +1,6 @@
 {
   "require": {
+    "tyler-sommer/nice-bench": "dev-master",
     "tyler-sommer/nice": "dev-master",
     "nikic/fast-route": "dev-master",
     "stack/builder": "dev-master",
