@@ -124,25 +124,25 @@ for ($i = 0, $str = 'a'; $i < $nRoutes; $i++, $str++) {
 }
 
 $benchmark = new Benchmark();
-//$benchmark->register('FastRoute first route', function() use($nMatches, $router, $frArgs) {
+//$benchmark->register('FastRoute - first route', function() use($nMatches, $router, $frArgs) {
 //        for ($i = 0; $i < $nMatches; $i++) {
 //            $res = $router->dispatch('GET', '/a/' . $frArgs);
 //        }
 //    });
 //
-//$benchmark->register('pux ext first route', function() use($nMatches, $mux, $muxArgs) {
+//$benchmark->register('Pux PHP - first route', function() use($nMatches, $mux, $muxArgs) {
 //        for ($i = 0; $i < $nMatches; ++$i) {
 //            $route = $mux->dispatch('/a/' . $muxArgs);
 //        }
 //    });
 
-$benchmark->register(sprintf('FastRoute last route (%s routes)', $nRoutes), function() use($nMatches, $router, $frLastStr, $frArgs) {
+$benchmark->register(sprintf('FastRoute - last route (%s routes)', $nRoutes), function() use($nMatches, $router, $frLastStr, $frArgs) {
         for ($i = 0; $i < $nMatches; $i++) {
             $res = $router->dispatch('GET', '/' . $frLastStr . '/' . $frArgs);
         }
     });
 
-$benchmark->register(sprintf('pux ext last route (%s routes)', $nRoutes), function() use($nMatches, $mux, $muxLastStr, $muxArgs) {
+$benchmark->register(sprintf('Pux PHP - last route (%s routes)', $nRoutes), function() use($nMatches, $mux, $muxLastStr, $muxArgs) {
         for ($i = 0; $i < $nMatches; ++$i) {
             $route = $mux->dispatch('/' . $muxLastStr . '/' . $muxArgs);
         }
