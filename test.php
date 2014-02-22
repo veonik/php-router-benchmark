@@ -4,8 +4,6 @@ error_reporting(E_ALL);
 
 require __DIR__ . '/vendor/autoload.php';
 
-function callback() {}
-
 $options = [];
 
 $nRoutes = 1000;
@@ -50,7 +48,7 @@ $benchmark = new TylerSommer\Nice\Benchmark\Benchmark();
 //
 //$benchmark->register('Pux PHP - first route', function() use($nMatches, $mux, $muxArgs) {
 //        for ($i = 0; $i < $nMatches; ++$i) {
-//            $route = $mux->dispatch('/a/' . $muxArgs);
+//            $route = $mux->match('/a/' . $muxArgs);
 //        }
 //    });
 //
@@ -74,7 +72,7 @@ $benchmark->register(sprintf('FastRoute - last route (%s routes)', $nRoutes), fu
 
 $benchmark->register(sprintf('Pux PHP - last route (%s routes)', $nRoutes), function() use($nMatches, $mux, $muxLastStr, $muxArgs) {
         for ($i = 0; $i < $nMatches; ++$i) {
-            $route = $mux->dispatch('/' . $muxLastStr . '/' . $muxArgs);
+            $route = $mux->match('/' . $muxLastStr . '/' . $muxArgs);
         }
     });
 
@@ -96,7 +94,7 @@ $benchmark->register(sprintf('FastRoute - unknown route (%s routes)', $nRoutes),
 
 $benchmark->register(sprintf('Pux PHP - unknown route (%s routes)', $nRoutes), function() use($nMatches, $mux) {
         for ($i = 0; $i < $nMatches; ++$i) {
-            $route = $mux->dispatch('/not-even-real');
+            $route = $mux->match('/not-even-real');
         }
     });
 

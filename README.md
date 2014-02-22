@@ -19,7 +19,7 @@ Currently
 
 ### Last/unknown route (1000 routes)
 
-The first test was done using the C extension version of Pux versus FastRoute. 1000 routes, with 9 parameters each.
+The first test was done using the C extension version of Pux. 1000 routes, with 9 parameters each.
 
 ```bash
 Running 6 tests, 1000 times each...
@@ -27,12 +27,12 @@ The 100 highest and lowest results will be disregarded.
 
 Results:
 Test Name                          	    Time                	+ Interval          	Change
-FastRoute - unknown route (1000 routes)	0.0003509843        	+0.0000000000       	baseline
-FastRoute - last route (1000 routes)	0.0003616071        	+0.0000106227       	3% slower
-Pux ext - unknown route (1000 routes)	0.0008050108        	+0.0004540265       	129% slower
-Pux ext - last route (1000 routes) 	    0.0008263820        	+0.0004753977       	135% slower
-Symfony 2 - unknown route (1000 routes)	0.0050797191        	+0.0047287348       	1347% slower
-Symfony 2 - last route (1000 routes)	0.0052590027        	+0.0049080184       	1398% slower
+FastRoute - unknown route (1000 routes)	0.0003282449        	+0.0000000000       	baseline
+FastRoute - last route (1000 routes)	0.0003490779        	+0.0000208330       	6% slower
+Pux ext - last route (1000 routes) 	    0.0008355537        	+0.0005073088       	155% slower
+Pux ext - unknown route (1000 routes)	0.0008565038        	+0.0005282590       	161% slower
+Symfony 2 - unknown route (1000 routes)	0.0049886054        	+0.0046603605       	1420% slower
+Symfony 2 - last route (1000 routes)	0.0054083353        	+0.0050800905       	1548% slower
 ```
 
 And the same test again, with the Pux extension disabled:
@@ -42,13 +42,13 @@ Running 6 tests, 1000 times each...
 The 100 highest and lowest results will be disregarded.
 
 Results:
-Test Name                          	    Time                	+ Interval          	Change
-FastRoute - unknown route (1000 routes)	0.0003568077        	+0.0000000000       	baseline
-FastRoute - last route (1000 routes)	0.0003697601        	+0.0000129524       	4% slower
-Pux PHP - unknown route (1000 routes)	0.0026281527        	+0.0022713450       	637% slower
-Pux PHP - last route (1000 routes) 	    0.0026472646        	+0.0022904569       	642% slower
-Symfony 2 - unknown route (1000 routes)	0.0049424902        	+0.0045856824       	1285% slower
-Symfony 2 - last route (1000 routes)	0.0052162355        	+0.0048594278       	1362% slower
+Test Name                          	Time                	+ Interval          	Change
+FastRoute - unknown route (1000 routes)	0.0003558156        	+0.0000000000       	baseline
+FastRoute - last route (1000 routes)	0.0004698372        	+0.0001140216       	32% slower
+Pux PHP - last route (1000 routes) 	0.0027003917        	+0.0023445761       	659% slower
+Pux PHP - unknown route (1000 routes)	0.0027126130        	+0.0023567975       	662% slower
+Symfony 2 - unknown route (1000 routes)	0.0051302084        	+0.0047743928       	1342% slower
+Symfony 2 - last route (1000 routes)	0.0052936333        	+0.0049378178       	1388% slower
 ```
 
 
