@@ -20,6 +20,11 @@ The current test creates 1000 routes, each with a randomized prefix and postfix,
 
 An example route: `/9b37eef21e/{arg1}/{arg2}/{arg3}/{arg4}/{arg5}/{arg6}/{arg7}/{arg8}/{arg9}/bda37e9f9b`
 
+This is to simulate absolute worst case matching. Clearly, the routes used for this benchmark are not 
+at all like what you'd see in a real application. For example, the Symfony2 router contains a prefix 
+optimization that groups routes by the first letters of the route-- very useful for a real application.
+
+
 ### Last/unknown route (1000 routes)
 
 #### Pux extension enabled 
