@@ -11,17 +11,17 @@ function setupFastRoute(Benchmark $benchmark, $routes, $args)
     $lastStr = '';
     $router = FastRoute\simpleDispatcher(function ($router) use ($routes, $argString, &$lastStr) {
             for ($i = 0, $str = 'a'; $i < $routes; $i++, $str++) {
-                $router->addRoute('GET', '/' . $str . '/' . $argString, 'handler' . $i);
+                $router->addRoute('GET', '/' . $argString . '/' . $str, 'handler' . $i);
                 $lastStr = $str;
             }
         });
 
 //    $benchmark->register('FastRoute - first route', function () use ($router, $argString) {
-//            $route = $router->dispatch('GET', '/a/' . $argString);
+//            $route = $router->dispatch('GET', $argString . '/a/');
 //        });
 
     $benchmark->register(sprintf('FastRoute - last route (%s routes)', $routes), function () use ($router, $lastStr, $argString) {
-            $route = $router->dispatch('GET', '/' . $lastStr . '/' . $argString);
+            $route = $router->dispatch('GET', '/' . $argString . '/' . $lastStr);
         });
 
     $benchmark->register(sprintf('FastRoute - unknown route (%s routes)', $routes), function () use ($router) {
@@ -38,16 +38,16 @@ function setupPux(Benchmark $benchmark, $routes, $args)
     $lastStr = '';
     $router = new Pux\Mux;
     for ($i = 0, $str = 'a'; $i < $routes; $i++, $str++) {
-        $router->add('/' . $str . '/' . $argString, 'handler' . $i);
+        $router->add('/' . $argString . '/' . $str, 'handler' . $i);
         $lastStr = $str;
     }
 
 //    $benchmark->register('Pux PHP - first route', function () use ($router, $argString) {
-//            $route = $router->match('/a/' . $argString);
+//            $route = $router->match($argString . '/a/');
 //        });
 
     $benchmark->register(sprintf('Pux PHP - last route (%s routes)', $routes), function () use ($router, $lastStr, $argString) {
-            $route = $router->match('/' . $lastStr . '/' . $argString);
+            $route = $router->match('/' . $argString . '/' . $lastStr);
         });
 
     $benchmark->register(sprintf('Pux PHP - unknown route (%s routes)', $routes), function () use ($router) {
@@ -65,7 +65,7 @@ function setupSymfony2(Benchmark $benchmark, $routes, $args)
     $sfRoutes = new Symfony\Component\Routing\RouteCollection();
     $router = new Symfony\Component\Routing\Matcher\UrlMatcher($sfRoutes, new Symfony\Component\Routing\RequestContext());
     for ($i = 0, $str = 'a'; $i < $routes; $i++, $str++) {
-        $sfRoutes->add($str, new Symfony\Component\Routing\Route('/' . $str . '/' . $argString, array('controller' => 'handler' . $i)));
+        $sfRoutes->add($str, new Symfony\Component\Routing\Route('/' . $argString . '/' . $str, array('controller' => 'handler' . $i)));
         $lastStr = $str;
     }
 
@@ -74,7 +74,7 @@ function setupSymfony2(Benchmark $benchmark, $routes, $args)
 //        });
 
     $benchmark->register(sprintf('Symfony2 - last route (%s routes)', $routes), function () use ($router, $lastStr, $argString) {
-            $route = $router->match('/' . $lastStr . '/' . $argString);
+            $route = $router->match('/' . $argString . '/' . $lastStr);
         });
 
     $benchmark->register(sprintf('Symfony2 - unknown route (%s routes)', $routes), function () use ($router) {
@@ -93,7 +93,7 @@ function setupSymfony2Optimized(Benchmark $benchmark, $routes, $args)
     $lastStr = '';
     $sfRoutes = new Symfony\Component\Routing\RouteCollection();
     for ($i = 0, $str = 'a'; $i < $routes; $i++, $str++) {
-        $sfRoutes->add($str, new Symfony\Component\Routing\Route('/' . $str . '/' . $argString, array('controller' => 'handler' . $i)));
+        $sfRoutes->add($str, new Symfony\Component\Routing\Route('/' . $argString . '/' . $str, array('controller' => 'handler' . $i)));
         $lastStr = $str;
     }
     $dumper = new Symfony\Component\Routing\Matcher\Dumper\PhpMatcherDumper($sfRoutes);
@@ -103,11 +103,11 @@ function setupSymfony2Optimized(Benchmark $benchmark, $routes, $args)
     $router = new ProjectUrlMatcher(new Symfony\Component\Routing\RequestContext());
 
 //    $benchmark->register('Symfony2 Dumped - first route', function () use ($router, $argString) {
-//            $route = $router->match('/a/' . $argString);
+//            $route = $router->match($argString . '/a/');
 //        });
 
     $benchmark->register(sprintf('Symfony2 Dumped - last route (%s routes)', $routes), function () use ($router, $lastStr, $argString) {
-            $route = $router->match('/' . $lastStr . '/' . $argString);
+            $route = $router->match('/' . $argString . '/' . $lastStr);
         });
 
     $benchmark->register(sprintf('Symfony2 Dumped - unknown route (%s routes)', $routes), function () use ($router) {
@@ -132,7 +132,7 @@ function setupAura2(Benchmark $benchmark, $routes, $args)
         )
     );
     for ($i = 0, $str = 'a'; $i < $routes; $i++, $str++) {
-        $router->add($str, '/' . $str . '/' . $argString)
+        $router->add($str, '/' . $argString . '/' . $str)
             ->addValues(array(
                 'controller' => 'handler' . $i
             ));
@@ -140,7 +140,7 @@ function setupAura2(Benchmark $benchmark, $routes, $args)
     }
 
     $benchmark->register(sprintf('Aura v2 - last route (%s routes)', $routes), function () use ($router, $lastStr, $argString) {
-        $route = $router->match('/' . $lastStr . '/' . $argString, $_SERVER);
+        $route = $router->match('/' . $argString . '/' . $lastStr, $_SERVER);
     });
 
     $benchmark->register(sprintf('Aura v2 - unknown route (%s routes)', $routes), function () use ($router) {

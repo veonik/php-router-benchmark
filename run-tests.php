@@ -1,6 +1,7 @@
 <?php
 
 use TylerSommer\Nice\Benchmark\Benchmark;
+use TylerSommer\Nice\Benchmark\ResultPrinter\MarkdownPrinter;
 
 error_reporting(E_ALL);
 
@@ -11,7 +12,7 @@ $iterations = 1000;
 $routes = 1000;
 $args = 9;
 
-$benchmark = new Benchmark($iterations);
+$benchmark = new Benchmark($iterations, new MarkdownPrinter());
 
 setupAura2($benchmark, $routes, $args);
 setupFastRoute($benchmark, $routes, $args);
