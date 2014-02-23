@@ -116,3 +116,34 @@ function setupSymfony2Optimized(Benchmark $benchmark, $routes, $args)
             } catch (\Symfony\Component\Routing\Exception\ResourceNotFoundException $e) { }
         });
 }
+
+/**
+ * Sets up Aura v2 tests
+ * 
+ * https://github.com/auraphp/Aura.Router
+ */
+function setupAura2(Benchmark $benchmark, $routes, $args)
+{
+    $argString = implode('/', array_map(function ($i) { return "{arg$i}"; }, range(1, $args)));
+    $lastStr = '';
+    $router = new Aura\Router\Router(
+        new Aura\Router\RouteCollection(
+            new Aura\Router\RouteFactory()
+        )
+    );
+    for ($i = 0, $str = 'a'; $i < $routes; $i++, $str++) {
+        $router->add($str, '/' . $str . '/' . $argString)
+            ->addValues(array(
+                'controller' => 'handler' . $i
+            ));
+        $lastStr = $str;
+    }
+
+    $benchmark->register(sprintf('Aura v2 - last route (%s routes)', $routes), function () use ($router, $lastStr, $argString) {
+        $route = $router->match('/' . $lastStr . '/' . $argString, $_SERVER);
+    });
+
+    $benchmark->register(sprintf('Aura v2 - unknown route (%s routes)', $routes), function () use ($router) {
+        $route = $router->match('/not-even-real', $_SERVER);
+    });
+}

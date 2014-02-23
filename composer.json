@@ -3,6 +3,7 @@
     "tyler-sommer/nice-bench": "dev-master",
     "nikic/fast-route": "dev-master",
     "corneltek/pux": "dev-master",
-    "symfony/routing": "dev-master"
+    "symfony/routing": "dev-master",
+    "aura/router": "dev-develop-2"
   }
 }
