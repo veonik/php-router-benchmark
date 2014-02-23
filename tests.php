@@ -69,15 +69,48 @@ function setupSymfony2(Benchmark $benchmark, $routes, $args)
         $lastStr = $str;
     }
 
-//    $benchmark->register('Symfony 2 - first route', function () use ($router, $argString) {
+//    $benchmark->register('Symfony2 - first route', function () use ($router, $argString) {
 //            $route = $router->match('/a/' . $argString);
 //        });
 
-    $benchmark->register(sprintf('Symfony 2 - last route (%s routes)', $routes), function () use ($router, $lastStr, $argString) {
+    $benchmark->register(sprintf('Symfony2 - last route (%s routes)', $routes), function () use ($router, $lastStr, $argString) {
             $route = $router->match('/' . $lastStr . '/' . $argString);
         });
 
-    $benchmark->register(sprintf('Symfony 2 - unknown route (%s routes)', $routes), function () use ($router) {
+    $benchmark->register(sprintf('Symfony2 - unknown route (%s routes)', $routes), function () use ($router) {
+            try {
+                $route = $router->match('/not-even-real');
+            } catch (\Symfony\Component\Routing\Exception\ResourceNotFoundException $e) { }
+        });
+}
+
+/**
+ * Sets up Symfony2 optimized tests
+ */
+function setupSymfony2Optimized(Benchmark $benchmark, $routes, $args)
+{
+    $argString = implode('/', array_map(function ($i) { return "{arg$i}"; }, range(1, $args)));
+    $lastStr = '';
+    $sfRoutes = new Symfony\Component\Routing\RouteCollection();
+    for ($i = 0, $str = 'a'; $i < $routes; $i++, $str++) {
+        $sfRoutes->add($str, new Symfony\Component\Routing\Route('/' . $str . '/' . $argString, array('controller' => 'handler' . $i)));
+        $lastStr = $str;
+    }
+    $dumper = new Symfony\Component\Routing\Matcher\Dumper\PhpMatcherDumper($sfRoutes);
+    file_put_contents(__DIR__ . '/sf2router.php', $dumper->dump());
+    require_once __DIR__ . '/sf2router.php';
+
+    $router = new ProjectUrlMatcher(new Symfony\Component\Routing\RequestContext());
+
+//    $benchmark->register('Symfony2 Dumped - first route', function () use ($router, $argString) {
+//            $route = $router->match('/a/' . $argString);
+//        });
+
+    $benchmark->register(sprintf('Symfony2 Dumped - last route (%s routes)', $routes), function () use ($router, $lastStr, $argString) {
+            $route = $router->match('/' . $lastStr . '/' . $argString);
+        });
+
+    $benchmark->register(sprintf('Symfony2 Dumped - unknown route (%s routes)', $routes), function () use ($router) {
             try {
                 $route = $router->match('/not-even-real');
             } catch (\Symfony\Component\Routing\Exception\ResourceNotFoundException $e) { }
