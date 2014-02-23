@@ -22,13 +22,7 @@ An example route: `/9b37eef21e/{arg1}/{arg2}/{arg3}/{arg4}/{arg5}/{arg6}/{arg7}/
 
 ### Last/unknown route (1000 routes)
 
-The first test was done using the C extension version of Pux. 1000 routes, with 9 parameters each.
-
-```bash
-Running 10 tests, 1000 times each...
-The 100 highest and lowest results will be disregarded.
-
-Results:
+#### Pux extension enabled 
 
 Test Name | Time | + Interval | Change
 --------- | ---- | ---------- | ------
@@ -42,15 +36,8 @@ Symfony2 - unknown route (1000 routes) | 0.0052613673 | +0.0048763424 | 1267% sl
 Symfony2 - last route (1000 routes) | 0.0055262056 | +0.0051411808 | 1335% slower
 Aura v2 - last route (1000 routes) | 0.0089107320 | +0.0085257071 | 2214% slower
 Aura v2 - unknown route (1000 routes) | 0.0089471850 | +0.0085621601 | 2224% slower
-```
 
-And the same test again, with the Pux extension disabled:
-
-```bash
-Running 10 tests, 1000 times each...
-The 100 highest and lowest results will be disregarded.
-
-Results:
+#### Pux extension disabled:
 
 Test Name | Time | + Interval | Change
 --------- | ---- | ---------- | ------
@@ -64,8 +51,6 @@ Symfony2 - last route (1000 routes) | 0.0058649409 | +0.0054844230 | 1441% slowe
 Symfony2 - unknown route (1000 routes) | 0.0062237343 | +0.0058432165 | 1536% slower
 Aura v2 - last route (1000 routes) | 0.0089282593 | +0.0085477415 | 2246% slower
 Aura v2 - unknown route (1000 routes) | 0.0091238108 | +0.0087432930 | 2298% slower
-```
-
 
 ### First route
 
