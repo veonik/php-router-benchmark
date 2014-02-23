@@ -13,6 +13,7 @@ $args = 9;
 
 $benchmark = new Benchmark($iterations);
 
+setupAura2($benchmark, $routes, $args);
 setupFastRoute($benchmark, $routes, $args);
 setupSymfony2($benchmark, $routes, $args);
 setupPux($benchmark, $routes, $args);
