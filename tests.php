@@ -34,15 +34,15 @@ function setupFastRoute(Benchmark $benchmark, $numRoutes, $args)
     $firstStr = $routes[0];
     $lastStr = $routes[$numRoutes - 1];
 
-    $benchmark->register(sprintf('FastRoute - first route (%s routes)', $numRoutes), function () use ($routes, $firstStr) {
-        $router = FastRoute\simpleDispatcher(function ($router) use ($routes) {
-            foreach ($routes as $i => $route) {
-                $router->addRoute('GET', $route, 'handler' . $i);
-            }
-        });
+    // $benchmark->register(sprintf('FastRoute - first route (%s routes)', $numRoutes), function () use ($routes, $firstStr) {
+    //     $router = FastRoute\simpleDispatcher(function ($router) use ($routes) {
+    //         foreach ($routes as $i => $route) {
+    //             $router->addRoute('GET', $route, 'handler' . $i);
+    //         }
+    //     });
 
-        $route = $router->dispatch('GET', $firstStr);
-    });
+    //     $route = $router->dispatch('GET', $firstStr);
+    // });
 
     $benchmark->register(sprintf('FastRoute - last route (%s routes)', $numRoutes), function () use ($routes, $lastStr) {
         $router = FastRoute\simpleDispatcher(function ($router) use ($routes) {
@@ -76,13 +76,13 @@ function setupPux(Benchmark $benchmark, $numRoutes, $args)
     $firstStr = $routes[0];
     $lastStr = $routes[$numRoutes - 1];
 
-    $benchmark->register(sprintf('Pux PHP - first route (%s routes)', $numRoutes), function () use ($routes, $firstStr) {
-        $router = new Pux\Mux;
-        foreach ($routes as $i => $route) {
-            $router->add($route, 'handler' . $i);
-        }
-        $route = $router->match($firstStr);
-    });
+    // $benchmark->register(sprintf('Pux PHP - first route (%s routes)', $numRoutes), function () use ($routes, $firstStr) {
+    //     $router = new Pux\Mux;
+    //     foreach ($routes as $i => $route) {
+    //         $router->add($route, 'handler' . $i);
+    //     }
+    //     $route = $router->match($firstStr);
+    // });
 
     $benchmark->register(sprintf('Pux PHP - last route (%s routes)', $numRoutes), function () use ($routes, $lastStr) {
         $router = new Pux\Mux;
@@ -112,14 +112,14 @@ function setupSymfony2(Benchmark $benchmark, $numRoutes, $args)
     $firstStr = $routes[0];
     $lastStr = $routes[$numRoutes - 1];
 
-    $benchmark->register(sprintf('Symfony2 - first route (%s routes)', $numRoutes), function () use ($routes, $firstStr) {
-        $sfRoutes = new Symfony\Component\Routing\RouteCollection();
-        $router = new Symfony\Component\Routing\Matcher\UrlMatcher($sfRoutes, new Symfony\Component\Routing\RequestContext());
-        foreach ($routes as $i => $route) {
-            $sfRoutes->add($route, new Symfony\Component\Routing\Route($route, array('controller' => 'handler' . $i)));
-        }
-        $route = $router->match($firstStr);
-    });
+    // $benchmark->register(sprintf('Symfony2 - first route (%s routes)', $numRoutes), function () use ($routes, $firstStr) {
+    //     $sfRoutes = new Symfony\Component\Routing\RouteCollection();
+    //     $router = new Symfony\Component\Routing\Matcher\UrlMatcher($sfRoutes, new Symfony\Component\Routing\RequestContext());
+    //     foreach ($routes as $i => $route) {
+    //         $sfRoutes->add($route, new Symfony\Component\Routing\Route($route, array('controller' => 'handler' . $i)));
+    //     }
+    //     $route = $router->match($firstStr);
+    // });
 
     $benchmark->register(sprintf('Symfony2 - last route (%s routes)', $numRoutes), function () use ($routes, $lastStr) {
         $sfRoutes = new Symfony\Component\Routing\RouteCollection();
@@ -154,22 +154,22 @@ function setupAura2(Benchmark $benchmark, $numRoutes, $args)
     $firstStr = $routes[0];
     $lastStr = $routes[$numRoutes - 1];
 
-    $benchmark->register(sprintf('Aura v2 - first route (%s routes)', $numRoutes), function () use ($routes, $firstStr) {
-        $router = new Aura\Router\Router(
-            new Aura\Router\RouteCollection(
-                new Aura\Router\RouteFactory()
-            )
-        );
+    // $benchmark->register(sprintf('Aura v2 - first route (%s routes)', $numRoutes), function () use ($routes, $firstStr) {
+    //     $router = new Aura\Router\Router(
+    //         new Aura\Router\RouteCollection(
+    //             new Aura\Router\RouteFactory()
+    //         )
+    //     );
 
-        foreach ($routes as $i => $route) {
-            $router->add($route, $route)
-                ->addValues(array(
-                    'controller' => 'handler' . $i
-                ));
-        }
+    //     foreach ($routes as $i => $route) {
+    //         $router->add($route, $route)
+    //             ->addValues(array(
+    //                 'controller' => 'handler' . $i
+    //             ));
+    //     }
 
-        $route = $router->match($firstStr, $_SERVER);
-    });
+    //     $route = $router->match($firstStr, $_SERVER);
+    // });
 
     $benchmark->register(sprintf('Aura v2 - last route (%s routes)', $numRoutes), function () use ($routes, $lastStr) {
         $router = new Aura\Router\Router(
@@ -218,21 +218,21 @@ function setupABRouter(Benchmark $benchmark, $numRoutes, $args)
     $firstStr = $routes[0];
     $lastStr = $routes[$numRoutes - 1];
 
-    $benchmark->register(sprintf('AdamBrett\\Router - first route (%s routes)', $numRoutes), function () use ($routes, $firstStr) {
-        $router = new AdamBrett\Router\FactoryRouter(
-            new AdamBrett\Router\Router('GET', $firstStr)
-        );
+    // $benchmark->register(sprintf('AdamBrett\\Router - first route (%s routes)', $numRoutes), function () use ($routes, $firstStr) {
+    //     $router = new AdamBrett\Router\FactoryRouter(
+    //         new AdamBrett\Router\Router('GET', $firstStr)
+    //     );
 
-        foreach ($routes as $i => $route) {
-            $router->get($route, function () use ($i) {
-                if (function_exists('handle' . $i)) {
-                    call_user_func('handle' . $i);
-                }
-            });
-        }
+    //     foreach ($routes as $i => $route) {
+    //         $router->get($route, function () use ($i) {
+    //             if (function_exists('handle' . $i)) {
+    //                 call_user_func('handle' . $i);
+    //             }
+    //         });
+    //     }
 
-        $router->dispatch();
-    });
+    //     $router->dispatch();
+    // });
 
     $benchmark->register(sprintf('AdamBrett\\Router - last route (%s routes)', $numRoutes), function () use ($routes, $lastStr) {
         $router = new AdamBrett\Router\FactoryRouter(
