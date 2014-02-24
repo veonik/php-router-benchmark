@@ -17,7 +17,6 @@ $benchmark = new Benchmark($iterations, new MarkdownPrinter());
 setupAura2($benchmark, $routes, $args);
 setupFastRoute($benchmark, $routes, $args);
 setupSymfony2($benchmark, $routes, $args);
-setupSymfony2Optimized($benchmark, $routes, $args);
 setupPux($benchmark, $routes, $args);
 setupABRouter($benchmark, $routes, $args);
 

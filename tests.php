@@ -143,45 +143,6 @@ function setupSymfony2(Benchmark $benchmark, $numRoutes, $args)
 }
 
 /**
- * Sets up Symfony2 optimized tests
- */
-function setupSymfony2Optimized(Benchmark $benchmark, $numRoutes, $args)
-{
-    $argString = implode('/', array_map(function ($i) { return "{arg$i}"; }, range(1, $args)));
-
-    $routes = getRoutes($numRoutes, $argString);
-    $firstStr = $routes[0];
-    $lastStr = $routes[$numRoutes - 1];
-
-    $sfRoutes = new Symfony\Component\Routing\RouteCollection();
-
-    foreach ($routes as $i => $route) {
-        $sfRoutes->add($route, new Symfony\Component\Routing\Route($route, array('controller' => 'handler' . $i)));
-    }
-
-    $dumper = new Symfony\Component\Routing\Matcher\Dumper\PhpMatcherDumper($sfRoutes);
-    file_put_contents(__DIR__ . '/sf2router.php', $dumper->dump());
-
-    require_once __DIR__ . '/sf2router.php';
-    $benchmark->register(sprintf('Symfony2 Dumped - first route (%s routes)', $numRoutes), function () use ($firstStr) {
-        $router = new ProjectUrlMatcher(new Symfony\Component\Routing\RequestContext());
-        $route = $router->match($firstStr);
-    });
-
-    $benchmark->register(sprintf('Symfony2 Dumped - last route (%s routes)', $numRoutes), function () use ($lastStr) {
-        $router = new ProjectUrlMatcher(new Symfony\Component\Routing\RequestContext());
-        $route = $router->match($lastStr);
-    });
-
-    $benchmark->register(sprintf('Symfony2 Dumped - unknown route (%s routes)', $numRoutes), function () {
-        try {
-            $router = new ProjectUrlMatcher(new Symfony\Component\Routing\RequestContext());
-            $route = $router->match('/not-even-real');
-        } catch (\Symfony\Component\Routing\Exception\ResourceNotFoundException $e) { }
-    });
-}
-
-/**
  * Sets up Aura v2 tests
  *
  * https://github.com/auraphp/Aura.Router
