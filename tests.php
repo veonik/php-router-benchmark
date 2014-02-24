@@ -22,6 +22,7 @@ function getRoutes($numRoutes, $argString)
 
     return $routes;
 }
+
 /**
  * Sets up FastRoute tests
  */
@@ -188,5 +189,50 @@ function setupAura2(Benchmark $benchmark, $numRoutes, $args)
         }
 
         $route = $router->match('/not-even-real', $_SERVER);
+    });
+}
+
+/**
+ * Sets up AdamBrett\Router
+ *
+ * https://github.com/adambrett/php-router
+ */
+function setupABRouter(Benchmark $benchmark, $numRoutes, $args)
+{
+    $argString = implode('/', array_map(function ($i) { return "{arg$i}"; }, range(1, $args)));
+    $routes = getRoutes($numRoutes, $argString);
+    $firstStr = $routes[0];
+    $lastStr = $routes[$numRoutes - 1];
+
+    $benchmark->register(sprintf('AdamBrett\\Router - last route (%s routes)', $numRoutes), function () use ($routes, $lastStr) {
+        $router = new AdamBrett\Router\FactoryRouter(
+            new AdamBrett\Router\Router('GET', $lastStr)
+        );
+
+        foreach ($routes as $i => $route) {
+            $router->get($route, function () use ($i) {
+                if (function_exists('handle' . $i)) {
+                    call_user_func('handle' . $i);
+                }
+            });
+        }
+
+        $router->dispatch();
+    });
+
+    $benchmark->register(sprintf('AdamBrett\\Router - unknown route (%s routes)', $numRoutes), function () use ($routes) {
+        $router = new AdamBrett\Router\FactoryRouter(
+            new AdamBrett\Router\Router('GET', '/not-even-real')
+        );
+
+        foreach ($routes as $i => $route) {
+            $router->get($route, function () use ($i) {
+                if (function_exists('handle' . $i)) {
+                    call_user_func('handle' . $i);
+                }
+            });
+        }
+
+        $router->dispatch();
     });
 }
