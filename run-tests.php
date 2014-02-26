@@ -2,7 +2,6 @@
 
 use TylerSommer\Nice\Benchmark\Benchmark;
 use TylerSommer\Nice\Benchmark\BenchmarkCollection;
-use TylerSommer\Nice\Benchmark\ResultPrinter\MarkdownPrinter;
 
 error_reporting(E_ALL);
 

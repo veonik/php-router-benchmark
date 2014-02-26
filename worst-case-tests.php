@@ -7,10 +7,10 @@ use TylerSommer\Nice\Benchmark\ResultPrinter\MarkdownPrinter;
 
 /**
  * Sets up the Worst-case matching benchmark.
- * 
+ *
  * This benchmark generates a randomly prefixed and suffixed route, in an attempt to thwart
  * any optimization.
- * 
+ *
  * @param $numIterations
  * @param $numRoutes
  * @param $numArgs
@@ -38,6 +38,7 @@ function setupBenchmark($numIterations, $numRoutes, $numArgs)
 function getRandomParts()
 {
     $rand = md5(uniqid(mt_rand(), true));
+
     return array(
         substr($rand, 0, 10),
         substr($rand, -10),
@@ -80,7 +81,7 @@ function setupFastRoute(Benchmark $benchmark, $routes, $args)
 function setupPux(Benchmark $benchmark, $routes, $args)
 {
     $name = extension_loaded('pux') ? 'Pux ext' : 'Pux PHP';
-    
+
     $argString = implode('/', array_map(function ($i) { return ':arg' . $i; }, range(1, $args)));
     $str = $firstStr = $lastStr = '';
     $router = new \Pux\Mux;

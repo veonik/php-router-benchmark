@@ -20,8 +20,8 @@ function setupBenchmark($numIterations, $numRoutes, $numArgs)
 {
     $benchmark = new Benchmark($numIterations, 'First route matching', new MarkdownPrinter());
     $benchmark->setDescription(sprintf(
-            'This benchmark tests how quickly each router can match the first route. %s routes each with %s arguments.', 
-            number_format($numRoutes), 
+            'This benchmark tests how quickly each router can match the first route. %s routes each with %s arguments.',
+            number_format($numRoutes),
             $numArgs
         ));
 
@@ -37,6 +37,7 @@ function setupBenchmark($numIterations, $numRoutes, $numArgs)
 function getRandomParts()
 {
     $rand = md5(uniqid(mt_rand(), true));
+
     return array(
         substr($rand, 0, 10),
         substr($rand, -10),
