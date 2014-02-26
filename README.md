@@ -27,9 +27,9 @@ optimization that groups routes by the first letters of the route-- very useful 
 
 ### Last/unknown route (1000 routes)
 
-#### Pux extension enabled 
-
 This benchmark consists of 10 tests. Each test is executed 1,000 times, the results pruned, and then averaged. Values that fall outside of 3 standard deviations of the mean are discarded.
+
+#### Pux extension enabled 
 
 Test Name | Time | + Interval | Change
 --------- | ---- | ---------- | ------
@@ -46,8 +46,6 @@ Aura v2 - unknown route (1000 routes) | 0.0094650060 | +0.0090772888 | 2341% slo
 
 
 #### Pux extension disabled
-
-This benchmark consists of 10 tests. Each test is executed 1,000 times, the results pruned, and then averaged. Values that fall outside of 3 standard deviations of the mean are discarded.
 
 Test Name | Time | + Interval | Change
 --------- | ---- | ---------- | ------
