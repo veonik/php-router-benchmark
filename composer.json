@@ -4,6 +4,7 @@
     "nikic/fast-route": "dev-master",
     "corneltek/pux": "dev-master",
     "symfony/routing": "dev-master",
-    "aura/router": "dev-develop-2"
+    "aura/router": "dev-develop-2",
+    "dasprid/dash": "dev-master"
   }
 }

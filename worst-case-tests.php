@@ -2,8 +2,13 @@
 
 namespace WorstCaseMatching;
 
+use Dash\Router\Http\Parser\Segment;
+use Dash\Router\Http\Route\Generic;
+use Dash\Router\Http\RouteCollection\RouteCollection;
+use Dash\Router\Http\Router;
 use TylerSommer\Nice\Benchmark\Benchmark;
 use TylerSommer\Nice\Benchmark\ResultPrinter\MarkdownPrinter;
+use Zend\Http\Request;
 
 /**
  * Sets up the Worst-case matching benchmark.
@@ -31,6 +36,7 @@ function setupBenchmark($numIterations, $numRoutes, $numArgs)
     setupSymfony2($benchmark, $numRoutes, $numArgs);
     setupSymfony2Optimized($benchmark, $numRoutes, $numArgs);
     setupPux($benchmark, $numRoutes, $numArgs);
+    setupDash($benchmark, $numRoutes, $numArgs);
 
     return $benchmark;
 }
@@ -211,5 +217,48 @@ function setupAura2(Benchmark $benchmark, $routes, $args)
 
     $benchmark->register(sprintf('Aura v2 - unknown route (%s routes)', $routes), function () use ($router) {
             $route = $router->match('/not-even-real', $_SERVER);
+        });
+}
+
+/**
+ * Sets up Dash tests
+ *
+ * https://github.com/DASPRiD/Dash
+ */
+function setupDash(Benchmark $benchmark, $routes, $args)
+{
+    $argString = implode('/', array_map(function ($i) { return "{arg$i}"; }, range(1, $args)));
+    $lastStr = '';
+    $routeCollection = new RouteCollection();
+    for ($i = 0, $str = 'a'; $i < $routes; $i++, $str++) {
+        list ($pre, $post) = getRandomParts();
+        $str = '/' . $pre . '/' . $argString . '/' . $post;
+
+        if (0 === $i) {
+            $firstStr = str_replace(array('{', '}'), '', $str);
+        }
+        $lastStr = str_replace(array('{', '}'), '', $str);
+
+        $route = new Generic();
+        $route->setMethods(array('get'));
+        $route->setPathParser(new Segment('/', $str, array()));
+        
+        $routeCollection->insert('handler' . $i, $route);
+    }
+
+    $router = new Router($routeCollection);
+        
+    $lastStrRequest = new Request();
+    $lastStrRequest->setUri($lastStr);
+    
+    $unknownRequest = new Request();
+    $unknownRequest->setUri('/not-even-real');
+
+    $benchmark->register(sprintf('Dash - last route (%s routes)', $routes), function () use ($router, $lastStrRequest) {
+            $route = $router->match($lastStrRequest);
+        });
+
+    $benchmark->register(sprintf('Dash - unknown route (%s routes)', $routes), function () use ($router, $unknownRequest) {
+            $route = $router->match($unknownRequest);
         });
 }
