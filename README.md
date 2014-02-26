@@ -27,6 +27,7 @@ This benchmark matches the last route and unknown route. It generates a randomly
 
 This benchmark consists of 10 tests. Each test is executed 1,000 times, the results pruned, and then averaged. Values that fall outside of 3 standard deviations of the mean are discarded.
 
+```
 **Aura v2 - last route (1000 routes)** (999 runs): average time was 0.0098132791 seconds.
 **Aura v2 - unknown route (1000 routes)** (974 runs): average time was 0.0094750439 seconds.
 **FastRoute - last route (1000 routes)** (999 runs): average time was 0.0003970753 seconds.
@@ -37,7 +38,7 @@ This benchmark consists of 10 tests. Each test is executed 1,000 times, the resu
 **Symfony2 Dumped - unknown route (1000 routes)** (988 runs): average time was 0.0020100472 seconds.
 **Pux ext - last route (1000 routes)** (999 runs): average time was 0.0017104299 seconds.
 **Pux ext - unknown route (1000 routes)** (998 runs): average time was 0.0011432293 seconds.
-
+```
 
 Results:
 
@@ -60,12 +61,13 @@ This benchmark tests how quickly each router can match the first route. 1,000 ro
 
 This benchmark consists of 5 tests. Each test is executed 1,000 times, the results pruned, and then averaged. Values that fall outside of 3 standard deviations of the mean are discarded.
 
-
+```
 **Aura v2 - first route** (995 runs): average time was 0.0003257167 seconds.
 **FastRoute - first route** (983 runs): average time was 0.0000453121 seconds.
 **Symfony2 - first route** (998 runs): average time was 0.0002373314 seconds.
 **Symfony2 Dumped - first route** (994 runs): average time was 0.0000635095 seconds.
 **Pux ext - first route** (984 runs): average time was 0.0000224775 seconds.
+```
 
 
 Results:
