@@ -1,23 +1,24 @@
 <?php
 
 use TylerSommer\Nice\Benchmark\Benchmark;
+use TylerSommer\Nice\Benchmark\BenchmarkCollection;
 use TylerSommer\Nice\Benchmark\ResultPrinter\MarkdownPrinter;
 
 error_reporting(E_ALL);
 
 require __DIR__ . '/vendor/autoload.php';
-require __DIR__ . '/tests.php';
 
-$iterations = 1000;
-$routes = 1000;
-$args = 9;
+$numIterations = 1000;
+$numRoutes = 1000;
+$numArgs = 9;
 
-$benchmark = new Benchmark($iterations, 'PHP Router Benchmark', new MarkdownPrinter());
+require __DIR__ . '/worst-case-tests.php';
+$worstCaseBenchmark = WorstCaseMatching\setupBenchmark($numIterations, $numRoutes, $numArgs);
 
-setupAura2($benchmark, $routes, $args);
-setupFastRoute($benchmark, $routes, $args);
-setupSymfony2($benchmark, $routes, $args);
-setupSymfony2Optimized($benchmark, $routes, $args);
-setupPux($benchmark, $routes, $args);
+require __DIR__ . '/first-route-tests.php';
+$firstRouteBenchmark = FirstRouteMatching\setupBenchmark($numIterations, $numRoutes, $numArgs);
 
-$benchmark->execute();
+$collection = new BenchmarkCollection();
+$collection->addBenchmark($worstCaseBenchmark);
+$collection->addBenchmark($firstRouteBenchmark);
+$collection->execute();
