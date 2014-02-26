@@ -35,9 +35,9 @@ Test Name | Time | + Interval | Change
 --------- | ---- | ---------- | ------
 FastRoute - unknown route (1000 routes) | 0.0003877172 | +0.0000000000 | baseline
 FastRoute - last route (1000 routes) | 0.0004231266 | +0.0000354094 | 9% slower
-Pux PHP - unknown route (1000 routes) | 0.0009871890 | +0.0005994717 | 155% slower
+Pux ext - unknown route (1000 routes) | 0.0009871890 | +0.0005994717 | 155% slower
 Symfony2 Dumped - unknown route (1000 routes) | 0.0010901142 | +0.0007023970 | 181% slower
-Pux PHP - last route (1000 routes) | 0.0011134467 | +0.0007257295 | 187% slower
+Pux ext - last route (1000 routes) | 0.0011134467 | +0.0007257295 | 187% slower
 Symfony2 Dumped - last route (1000 routes) | 0.0011774707 | +0.0007897535 | 204% slower
 Symfony2 - unknown route (1000 routes) | 0.0058273004 | +0.0054395832 | 1403% slower
 Symfony2 - last route (1000 routes) | 0.0062613664 | +0.0058736492 | 1515% slower
