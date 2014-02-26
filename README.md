@@ -18,45 +18,62 @@ Currently
 
 The current test creates 1000 routes, each with a randomized prefix and postfix, with 9 parameters each.
 
+It was run with the Pux extension enabled.
+
 An example route: `/9b37eef21e/{arg1}/{arg2}/{arg3}/{arg4}/{arg5}/{arg6}/{arg7}/{arg8}/{arg9}/bda37e9f9b`
 
-This is to simulate absolute worst case matching. Clearly, the routes used for this benchmark are not 
-at all like what you'd see in a real application. For example, the Symfony2 router contains a prefix 
-optimization that groups routes by the first letters of the route-- very useful for a real application.
-
-
-### Last/unknown route (1000 routes)
+## Worst-case matching 
+This benchmark matches the last route and unknown route. It generates a randomly prefixed and suffixed route in an attempt to thwart any optimization. 1,000 routes each with 9 arguments.
 
 This benchmark consists of 10 tests. Each test is executed 1,000 times, the results pruned, and then averaged. Values that fall outside of 3 standard deviations of the mean are discarded.
 
-#### Pux extension enabled 
+**Aura v2 - last route (1000 routes)** (999 runs): average time was 0.0098132791 seconds.
+**Aura v2 - unknown route (1000 routes)** (974 runs): average time was 0.0094750439 seconds.
+**FastRoute - last route (1000 routes)** (999 runs): average time was 0.0003970753 seconds.
+**FastRoute - unknown route (1000 routes)** (973 runs): average time was 0.0003765039 seconds.
+**Symfony2 - last route (1000 routes)** (999 runs): average time was 0.0066306352 seconds.
+**Symfony2 - unknown route (1000 routes)** (991 runs): average time was 0.0084500950 seconds.
+**Symfony2 Dumped - last route (1000 routes)** (987 runs): average time was 0.0019083359 seconds.
+**Symfony2 Dumped - unknown route (1000 routes)** (988 runs): average time was 0.0020100472 seconds.
+**Pux ext - last route (1000 routes)** (999 runs): average time was 0.0017104299 seconds.
+**Pux ext - unknown route (1000 routes)** (998 runs): average time was 0.0011432293 seconds.
+
+
+Results:
 
 Test Name | Time | + Interval | Change
 --------- | ---- | ---------- | ------
-FastRoute - unknown route (1000 routes) | 0.0003877172 | +0.0000000000 | baseline
-FastRoute - last route (1000 routes) | 0.0004231266 | +0.0000354094 | 9% slower
-Pux ext - unknown route (1000 routes) | 0.0009871890 | +0.0005994717 | 155% slower
-Symfony2 Dumped - unknown route (1000 routes) | 0.0010901142 | +0.0007023970 | 181% slower
-Pux ext - last route (1000 routes) | 0.0011134467 | +0.0007257295 | 187% slower
-Symfony2 Dumped - last route (1000 routes) | 0.0011774707 | +0.0007897535 | 204% slower
-Symfony2 - unknown route (1000 routes) | 0.0058273004 | +0.0054395832 | 1403% slower
-Symfony2 - last route (1000 routes) | 0.0062613664 | +0.0058736492 | 1515% slower
-Aura v2 - last route (1000 routes) | 0.0093994704 | +0.0090117532 | 2324% slower
-Aura v2 - unknown route (1000 routes) | 0.0094650060 | +0.0090772888 | 2341% slower
+FastRoute - unknown route (1000 routes) | 0.0003765039 | +0.0000000000 | baseline
+FastRoute - last route (1000 routes) | 0.0003970753 | +0.0000205714 | 5% slower
+Pux ext - unknown route (1000 routes) | 0.0011432293 | +0.0007667254 | 204% slower
+Pux ext - last route (1000 routes) | 0.0017104299 | +0.0013339261 | 354% slower
+Symfony2 Dumped - last route (1000 routes) | 0.0019083359 | +0.0015318320 | 407% slower
+Symfony2 Dumped - unknown route (1000 routes) | 0.0020100472 | +0.0016335433 | 434% slower
+Symfony2 - last route (1000 routes) | 0.0066306352 | +0.0062541314 | 1661% slower
+Symfony2 - unknown route (1000 routes) | 0.0084500950 | +0.0080735912 | 2144% slower
+Aura v2 - unknown route (1000 routes) | 0.0094750439 | +0.0090985401 | 2417% slower
+Aura v2 - last route (1000 routes) | 0.0098132791 | +0.0094367753 | 2506% slower
 
 
-#### Pux extension disabled
+## First route matching
+This benchmark tests how quickly each router can match the first route. 1,000 routes each with 9 arguments.
+
+This benchmark consists of 5 tests. Each test is executed 1,000 times, the results pruned, and then averaged. Values that fall outside of 3 standard deviations of the mean are discarded.
+
+
+**Aura v2 - first route** (995 runs): average time was 0.0003257167 seconds.
+**FastRoute - first route** (983 runs): average time was 0.0000453121 seconds.
+**Symfony2 - first route** (998 runs): average time was 0.0002373314 seconds.
+**Symfony2 Dumped - first route** (994 runs): average time was 0.0000635095 seconds.
+**Pux ext - first route** (984 runs): average time was 0.0000224775 seconds.
+
+
+Results:
 
 Test Name | Time | + Interval | Change
 --------- | ---- | ---------- | ------
-FastRoute - unknown route (1000 routes) | 0.0004740092 | +0.0000000000 | baseline
-FastRoute - last route (1000 routes) | 0.0005117982 | +0.0000377890 | 8% slower
-Symfony2 Dumped - unknown route (1000 routes) | 0.0010985712 | +0.0006245620 | 132% slower
-Symfony2 Dumped - last route (1000 routes) | 0.0012421367 | +0.0007681275 | 162% slower
-Pux PHP - unknown route (1000 routes) | 0.0029439456 | +0.0024699364 | 521% slower
-Pux PHP - last route (1000 routes) | 0.0030395426 | +0.0025655334 | 541% slower
-Symfony2 - unknown route (1000 routes) | 0.0061433836 | +0.0056693744 | 1196% slower
-Symfony2 - last route (1000 routes) | 0.0063333072 | +0.0058592980 | 1236% slower
-Aura v2 - unknown route (1000 routes) | 0.0100008997 | +0.0095268905 | 2010% slower
-Aura v2 - last route (1000 routes) | 0.0102597146 | +0.0097857054 | 2064% slower
-
+Pux ext - first route | 0.0000224775 | +0.0000000000 | baseline
+FastRoute - first route | 0.0000453121 | +0.0000228346 | 102% slower
+Symfony2 Dumped - first route | 0.0000635095 | +0.0000410320 | 183% slower
+Symfony2 - first route | 0.0002373314 | +0.0002148539 | 956% slower
+Aura v2 - first route | 0.0003257167 | +0.0003032392 | 1349% slower
