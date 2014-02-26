@@ -12,7 +12,7 @@ $iterations = 1000;
 $routes = 1000;
 $args = 9;
 
-$benchmark = new Benchmark($iterations, new MarkdownPrinter());
+$benchmark = new Benchmark($iterations, 'PHP Router Benchmark', new MarkdownPrinter());
 
 setupAura2($benchmark, $routes, $args);
 setupFastRoute($benchmark, $routes, $args);
