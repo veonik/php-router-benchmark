@@ -6,5 +6,10 @@
     "symfony/routing": "dev-master",
     "aura/router": "dev-develop-2",
     "dasprid/dash": "dev-master"
+  },
+  "autoload": {
+    "psr-4": {
+      "RouterBenchmarks\\": "src/"
+    }
   }
 }
