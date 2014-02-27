@@ -4,8 +4,8 @@ namespace WorstCaseMatching;
 
 use Dash\Router\Http\Parser\Segment;
 use Dash\Router\Http\Route\Generic;
-use Dash\Router\Http\RouteCollection\RouteCollection;
 use Dash\Router\Http\Router;
+use RouterBenchmarks\Dash\RouteCollection;
 use TylerSommer\Nice\Benchmark\Benchmark;
 use TylerSommer\Nice\Benchmark\ResultPrinter\MarkdownPrinter;
 use Zend\Http\Request;
@@ -242,17 +242,14 @@ function setupDash(Benchmark $benchmark, $routes, $args)
         $route = new Generic();
         $route->setMethods(array('get'));
         $route->setPathParser(new Segment('/', $str, array()));
-        
+
         $routeCollection->insert('handler' . $i, $route);
     }
 
     $router = new Router($routeCollection);
-        
-    $lastStrRequest = new Request();
-    $lastStrRequest->setUri($lastStr);
-    
-    $unknownRequest = new Request();
-    $unknownRequest->setUri('/not-even-real');
+
+    $lastStrRequest = Request::fromString(sprintf('GET %s HTTP/1.1', $lastStr));
+    $unknownRequest = Request::fromString(sprintf('GET /not-even-real HTTP/1.1', $lastStr));
 
     $benchmark->register(sprintf('Dash - last route (%s routes)', $routes), function () use ($router, $lastStrRequest) {
             $route = $router->match($lastStrRequest);
