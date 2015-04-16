@@ -2,8 +2,8 @@
 
 namespace FirstRouteMatching;
 
-use TylerSommer\Nice\Benchmark\Benchmark;
-use TylerSommer\Nice\Benchmark\ResultPrinter\MarkdownPrinter;
+use Nice\Benchmark\Benchmark;
+use Nice\Benchmark\ResultPrinter\MarkdownPrinter;
 
 /**
  * Sets up the First-route matching benchmark.
@@ -166,7 +166,8 @@ function setupAura2(Benchmark $benchmark, $routes, $args)
     $router = new \Aura\Router\Router(
         new \Aura\Router\RouteCollection(
             new \Aura\Router\RouteFactory()
-        )
+        ),
+        new \Aura\Router\Generator()
     );
     for ($i = 0, $str = 'a'; $i < $routes; $i++, $str++) {
         list ($pre, $post) = getRandomParts();

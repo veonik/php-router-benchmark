@@ -1,7 +1,6 @@
 <?php
 
-use TylerSommer\Nice\Benchmark\Benchmark;
-use TylerSommer\Nice\Benchmark\BenchmarkCollection;
+use Nice\Benchmark\BenchmarkCollection;
 
 error_reporting(E_ALL);
 
