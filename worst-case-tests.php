@@ -28,6 +28,7 @@ function setupBenchmark($numIterations, $numRoutes, $numArgs)
 
     setupAura2($benchmark, $numRoutes, $numArgs);
     setupFastRoute($benchmark, $numRoutes, $numArgs);
+    setupR3Router($benchmark, $numRoutes, $numArgs);
     setupSymfony2($benchmark, $numRoutes, $numArgs);
     setupSymfony2Optimized($benchmark, $numRoutes, $numArgs);
     setupPux($benchmark, $numRoutes, $numArgs);
@@ -43,6 +44,35 @@ function getRandomParts()
         substr($rand, 0, 10),
         substr($rand, -10),
     );
+}
+
+function setupR3Router(Benchmark $benchmark, $routes, $args)
+{
+    $argString = implode('/', array_map(function ($i) { return "{arg$i}"; }, range(1, $args)));
+    $str = $firstStr = $lastStr = '';
+    $router = r3_tree_create_persist("app", 10);
+    if (!r3_tree_is_compiled($router)) {
+        for ($i = 0; $i < $routes; $i++) {
+            list ($pre, $post) = getRandomParts();
+            $str = '/' . $pre . '/' . $argString . '/' . $post;
+            if (0 === $i) {
+                $firstStr = str_replace(array('{', '}'), '', $str);
+            }
+            $lastStr = str_replace(array('{', '}'), '', $str);
+            r3_tree_insert($router, $str, "handler" . $i);
+        }
+        r3_tree_compile($router);
+    }
+
+    $benchmark->register(sprintf('r3 - last route (%s routes)', $routes), function () use ($router, $lastStr) {
+            $data = r3_tree_match($router, $lastStr);
+        });
+
+    $benchmark->register(sprintf('r3 - unknown route (%s routes)', $routes), function () use ($router) {
+            $data = r3_tree_match($router, "/not-even-real");
+        });
+
+
 }
 
 /**
