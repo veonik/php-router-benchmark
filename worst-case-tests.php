@@ -28,7 +28,7 @@ function setupBenchmark($numIterations, $numRoutes, $numArgs)
 
     setupAura2($benchmark, $numRoutes, $numArgs);
     setupFastRoute($benchmark, $numRoutes, $numArgs);
-    setupR3Router($benchmark, $numRoutes, $numArgs);
+    setupR3($benchmark, $numRoutes, $numArgs);
     setupSymfony2($benchmark, $numRoutes, $numArgs);
     setupSymfony2Optimized($benchmark, $numRoutes, $numArgs);
     setupPux($benchmark, $numRoutes, $numArgs);
@@ -46,7 +46,7 @@ function getRandomParts()
     );
 }
 
-function setupR3Router(Benchmark $benchmark, $routes, $args)
+function setupR3(Benchmark $benchmark, $routes, $args)
 {
     $argString = implode('/', array_map(function ($i) { return "{arg$i}"; }, range(1, $args)));
     $str = $firstStr = $lastStr = '';
