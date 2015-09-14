@@ -2,8 +2,8 @@
 
 namespace FirstRouteMatching;
 
-use TylerSommer\Nice\Benchmark\Benchmark;
-use TylerSommer\Nice\Benchmark\ResultPrinter\MarkdownPrinter;
+use Nice\Benchmark\Benchmark;
+use Nice\Benchmark\ResultPrinter\MarkdownPrinter;
 
 /**
  * Sets up the First-route matching benchmark.
@@ -27,6 +27,12 @@ function setupBenchmark($numIterations, $numRoutes, $numArgs)
 
     setupAura2($benchmark, $numRoutes, $numArgs);
     setupFastRoute($benchmark, $numRoutes, $numArgs);
+    if (extension_loaded('r3')) {
+        setupR3($benchmark, $numRoutes, $numArgs);
+    } else {
+        echo "R3 extension is not loaded. Skipping initialization for \"First route matching\" test using R3.\n";
+    }
+
     setupSymfony2($benchmark, $numRoutes, $numArgs);
     setupSymfony2Optimized($benchmark, $numRoutes, $numArgs);
     setupPux($benchmark, $numRoutes, $numArgs);
@@ -43,6 +49,36 @@ function getRandomParts()
         substr($rand, -10),
     );
 }
+
+
+/**
+ * Sets up R3 tests
+ */
+function setupR3(Benchmark $benchmark, $routes, $args)
+{
+    $argString = implode('/', array_map(function ($i) { return "{arg$i}"; }, range(1, $args)));
+    $str = $firstStr = $lastStr = '';
+    $router = r3_tree_create_persist("app", 10);
+    if (!r3_tree_is_compiled($router)) {
+        for ($i = 0; $i < $routes; $i++) {
+            list ($pre, $post) = getRandomParts();
+            $str = '/' . $pre . '/' . $argString . '/' . $post;
+            if (0 === $i) {
+                $firstStr = str_replace(array('{', '}'), '', $str);
+            }
+            $lastStr = str_replace(array('{', '}'), '', $str);
+            r3_tree_insert($router, $str, "handler" . $i);
+        }
+        r3_tree_compile($router);
+    }
+
+    $benchmark->register(sprintf('php-r3 - first route', $routes), function () use ($router, $firstStr) {
+            $data = r3_tree_match($router, $firstStr);
+        });
+}
+
+
+
 
 /**
  * Sets up FastRoute tests
@@ -166,7 +202,8 @@ function setupAura2(Benchmark $benchmark, $routes, $args)
     $router = new \Aura\Router\Router(
         new \Aura\Router\RouteCollection(
             new \Aura\Router\RouteFactory()
-        )
+        ),
+        new \Aura\Router\Generator()
     );
     for ($i = 0, $str = 'a'; $i < $routes; $i++, $str++) {
         list ($pre, $post) = getRandomParts();

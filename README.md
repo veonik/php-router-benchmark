@@ -25,31 +25,36 @@ An example route: `/9b37eef21e/{arg1}/{arg2}/{arg3}/{arg4}/{arg5}/{arg6}/{arg7}/
 ## Worst-case matching
 This benchmark matches the last route and unknown route. It generates a randomly prefixed and suffixed route in an attempt to thwart any optimization. 1,000 routes each with 9 arguments.
 
-This benchmark consists of 10 tests. Each test is executed 1,000 times, the results pruned, and then averaged. Values that fall outside of 3 standard deviations of the mean are discarded.
+This benchmark consists of 12 tests. Each test is executed 1,000 times, the results pruned, and then averaged. Values that fall outside of 3 standard deviations of the mean are discarded.
+
 
 Test Name | Results | Time | + Interval | Change
 --------- | ------- | ---- | ---------- | ------
-FastRoute - last route (1000 routes) | 999 | 0.0005987507 | +0.0000000000 | baseline
-FastRoute - unknown route (1000 routes) | 974 | 0.0007073336 | +0.0001085829 | 18% slower
-Symfony2 Dumped - unknown route (1000 routes) | 978 | 0.0010984190 | +0.0004996683 | 83% slower
-Pux ext - last route (1000 routes) | 999 | 0.0011521092 | +0.0005533585 | 92% slower
-Pux ext - unknown route (1000 routes) | 997 | 0.0011798443 | +0.0005810937 | 97% slower
-Symfony2 Dumped - last route (1000 routes) | 977 | 0.0012447905 | +0.0006460398 | 108% slower
-Symfony2 - unknown route (1000 routes) | 977 | 0.0065360450 | +0.0059372943 | 992% slower
-Symfony2 - last route (1000 routes) | 999 | 0.0075226317 | +0.0069238810 | 1156% slower
-Aura v2 - unknown route (1000 routes) | 966 | 0.0094022778 | +0.0088035271 | 1470% slower
-Aura v2 - last route (1000 routes) | 999 | 0.0102424956 | +0.0096437449 | 1611% slower
+r3 - last route (1000 routes) | 998 | 0.0000219957 | +0.0000000000 | baseline
+r3 - unknown route (1000 routes) | 989 | 0.0000232766 | +0.0000012809 | 6% slower
+FastRoute - unknown route (1000 routes) | 988 | 0.0008175699 | +0.0007955742 | 3617% slower
+FastRoute - last route (1000 routes) | 988 | 0.0008405223 | +0.0008185266 | 3721% slower
+Symfony2 Dumped - unknown route (1000 routes) | 983 | 0.0021163105 | +0.0020943148 | 9521% slower
+Symfony2 Dumped - last route (1000 routes) | 990 | 0.0025903439 | +0.0025683483 | 11677% slower
+Pux PHP - unknown route (1000 routes) | 981 | 0.0045674659 | +0.0045454702 | 20665% slower
+Pux PHP - last route (1000 routes) | 992 | 0.0051111209 | +0.0050891252 | 23137% slower
+Symfony2 - unknown route (1000 routes) | 973 | 0.0090566973 | +0.0090347016 | 41075% slower
+Symfony2 - last route (1000 routes) | 998 | 0.0096361680 | +0.0096141723 | 43709% slower
+Aura v2 - unknown route (1000 routes) | 980 | 0.3795325072 | +0.3795105116 | 1725387% slower
+Aura v2 - last route (1000 routes) | 978 | 0.3948666711 | +0.3948446754 | 1795101% slower
 
 
 ## First route matching
 This benchmark tests how quickly each router can match the first route. 1,000 routes each with 9 arguments.
 
-This benchmark consists of 5 tests. Each test is executed 1,000 times, the results pruned, and then averaged. Values that fall outside of 3 standard deviations of the mean are discarded.
+This benchmark consists of 6 tests. Each test is executed 1,000 times, the results pruned, and then averaged. Values that fall outside of 3 standard deviations of the mean are discarded.
+
 
 Test Name | Results | Time | + Interval | Change
 --------- | ------- | ---- | ---------- | ------
-Pux ext - first route | 979 | 0.0000192035 | +0.0000000000 | baseline
-FastRoute - first route | 991 | 0.0000276991 | +0.0000084956 | 44% slower
-Symfony2 Dumped - first route | 974 | 0.0000543768 | +0.0000351733 | 183% slower
-Aura v2 - first route | 986 | 0.0001890168 | +0.0001698133 | 884% slower
-Symfony2 - first route | 999 | 0.0002314818 | +0.0002122782 | 1105% slower
+php-r3 - first route | 987 | 0.0000159752 | +0.0000000000 | baseline
+Pux PHP - first route | 984 | 0.0000486335 | +0.0000326583 | 204% slower
+FastRoute - first route | 969 | 0.0000897977 | +0.0000738225 | 462% slower
+Symfony2 Dumped - first route | 977 | 0.0001364784 | +0.0001205032 | 754% slower
+Symfony2 - first route | 999 | 0.0006037644 | +0.0005877892 | 3679% slower
+Aura v2 - first route | 979 | 0.0009121995 | +0.0008962242 | 5610% slower
