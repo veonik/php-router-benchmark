@@ -28,7 +28,12 @@ function setupBenchmark($numIterations, $numRoutes, $numArgs)
 
     setupAura2($benchmark, $numRoutes, $numArgs);
     setupFastRoute($benchmark, $numRoutes, $numArgs);
-    setupR3($benchmark, $numRoutes, $numArgs);
+    if (extension_loaded('r3')) {
+        setupR3($benchmark, $numRoutes, $numArgs);
+    } else {
+        echo "R3 extension is not loaded. Skipping initialization for \"Worst-case matching\" test using R3.\n";
+    }
+
     setupSymfony2($benchmark, $numRoutes, $numArgs);
     setupSymfony2Optimized($benchmark, $numRoutes, $numArgs);
     setupPux($benchmark, $numRoutes, $numArgs);
