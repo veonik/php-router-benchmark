@@ -6,7 +6,7 @@ error_reporting(E_ALL);
 
 require __DIR__ . '/vendor/autoload.php';
 
-$numIterations = 1000;
+$numIterations = 100;
 $numRoutes = 1000;
 $numArgs = 9;
 
