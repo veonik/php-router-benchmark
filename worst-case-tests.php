@@ -36,7 +36,7 @@ function setupBenchmark($numIterations, $numRoutes, $numArgs)
 
     setupSymfony2($benchmark, $numRoutes, $numArgs);
     setupSymfony2Optimized($benchmark, $numRoutes, $numArgs);
-    //setupPux($benchmark, $numRoutes, $numArgs);
+    setupPux($benchmark, $numRoutes, $numArgs);
     setupRouter($benchmark, $numRoutes, $numArgs);
 
     return $benchmark;
@@ -134,11 +134,11 @@ function setupRouter(Benchmark $benchmark, $routes, $args)
     }
 
     $benchmark->register(sprintf('%s - last route (%s routes)', $name, $routes), function () use ($router, $lastStr) {
-            $route = $router->execute(array(), 'GET', $lastStr);
+            $route = $router->resolve('GET', $lastStr, array());
         });
 
     $benchmark->register(sprintf('%s - unknown route (%s routes)', $name, $routes), function () use ($router) {
-            $route = $router->execute(array(), 'GET', '/not-even-real');
+            $route = $router->resolve('GET', '/not-even-real', array());
         });
 }
 
