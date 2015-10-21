@@ -3,6 +3,7 @@
     "nice/bench": "~1.0",
     "nikic/fast-route": "dev-master",
     "corneltek/pux": "dev-master",
+    "phpsgi/phpsgi": "@dev",
     "symfony/routing": "dev-master",
     "aura/router": "2.x-dev"
   }
