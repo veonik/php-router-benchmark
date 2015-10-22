@@ -36,6 +36,7 @@ function setupBenchmark($numIterations, $numRoutes, $numArgs)
     setupSymfony2($benchmark, $numRoutes, $numArgs);
     setupSymfony2Optimized($benchmark, $numRoutes, $numArgs);
     setupPux($benchmark, $numRoutes, $numArgs);
+    setupRouter($benchmark, $numRoutes, $numArgs);
 
     return $benchmark;
 }
@@ -103,6 +104,35 @@ function setupFastRoute(Benchmark $benchmark, $routes, $args)
 
     $benchmark->register(sprintf('FastRoute - first route', $routes), function () use ($router, $firstStr) {
             $route = $router->dispatch('GET', $firstStr);
+        });
+}
+
+/**
+ * Sets up Router tests
+ */
+function setupRouter(Benchmark $benchmark, $routes, $args)
+{
+    $name = 'Router';
+    $argString = implode('/', array_map(function ($i) { return ':arg' . $i; }, range(1, $args)));
+    $str = $firstStr = $lastStr = '';
+    $router = new \Router;
+    for ($i = 0; $i < $routes; $i++) {
+        list ($pre, $post) = getRandomParts();
+        $str = '/' . $pre . '/' . $argString . '/' . $post;
+
+        if (0 === $i) {
+            $firstStr = str_replace(':', '', $str);
+        }
+        $lastStr = str_replace(':', '', $str);
+
+        $router->get($str, 'handler' . $i);
+    }
+
+    $benchmark->register(sprintf('%s - unkown route', $name), function () use ($router, $firstStr) {
+            $route = $router->resolve('GET', '/not-real-router', array());
+        });
+    $benchmark->register(sprintf('%s - first route', $name), function () use ($router, $firstStr) {
+            $route = $router->resolve('GET', $firstStr, array());
         });
 }
 
