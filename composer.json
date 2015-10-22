@@ -5,7 +5,7 @@
     "symfony/routing": "dev-master",
     "corneltek/pux": "dev-master",
     "phpsgi/phpsgi": "@dev",
-    "lloydzhou/router": "dev-master",
+    "bephp/router": "dev-master",
     "aura/router": "2.x-dev"
   }
 }
