@@ -36,6 +36,8 @@ function setupBenchmark($numIterations, $numRoutes, $numArgs)
     setupSymfony2($benchmark, $numRoutes, $numArgs);
     setupSymfony2Optimized($benchmark, $numRoutes, $numArgs);
     setupPux($benchmark, $numRoutes, $numArgs);
+    setupConformity($benchmark, $numRoutes, $numArgs);
+    setupLearnableConformity($benchmark, $numRoutes, $numArgs);
 
     return $benchmark;
 }
@@ -223,4 +225,60 @@ function setupAura2(Benchmark $benchmark, $routes, $args)
     $benchmark->register('Aura v2 - first route', function () use ($router, $firstStr) {
             $route = $router->match($firstStr);
         });
+}
+
+
+
+/**
+ * Sets up Conformity tests
+ */
+function setupConformity(Benchmark $benchmark, $routes, $args)
+{
+    $argString = implode('/', array_map(function ($i) { return "{arg$i}"; }, range(1, $args)));
+    $str = $firstStr = $lastStr = '';
+
+    $router = new \Conformity\Router\Router();
+    for ($i = 0, $str = 'a'; $i < $routes; $i++, $str++) {
+        list ($pre, $post) = getRandomParts();
+        $str = '/' . $pre . '/' . $argString . '/' . $post;
+
+        if (0 === $i) {
+            $firstStr = str_replace(array('{', '}'), '', $str);
+        }
+        $lastStr = str_replace(array('{', '}'), '', $str);
+
+        $router->get($str, 'handler' . $i);
+    }
+
+    $benchmark->register(sprintf('Conformity - first route (%s routes)', $routes), function () use ($router, $firstStr) {
+        $route = $router->dispatch('GET', $firstStr);
+    });
+}
+
+
+
+/**
+ * Sets up LearnableConformity tests
+ */
+function setupLearnableConformity(Benchmark $benchmark, $routes, $args)
+{
+    $argString = implode('/', array_map(function ($i) { return "{arg$i}"; }, range(1, $args)));
+    $str = $firstStr = $lastStr = '';
+
+    $router = new \Conformity\Router\LearnableCachedRouter(new \Conformity\Router\LearnableFileCache(__DIR__ . '/files/first-route-conformity.php'));
+    for ($i = 0, $str = 'a'; $i < $routes; $i++, $str++) {
+        list ($pre, $post) = getRandomParts();
+        $str = '/' . $pre . '/' . $argString . '/' . $post;
+
+        if (0 === $i) {
+            $firstStr = str_replace(array('{', '}'), '', $str);
+        }
+        $lastStr = str_replace(array('{', '}'), '', $str);
+
+        $router->get($str, 'handler' . $i);
+    }
+
+    $benchmark->register(sprintf('Conformity Learnable - first route (%s routes)', $routes), function () use ($router, $firstStr) {
+        $route = $router->dispatch('GET', $firstStr);
+    });
 }
